@@ -1,5 +1,6 @@
 package br.edu.ifpb.Convidados.DAO;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -44,12 +45,13 @@ public class ConvidadoDAO extends GenericDao<Integer, Convidado> {
 	public List<Convidado> getByName(String nome) {
 
 		Session session = HibernateUtil.getSessionFactory().openSession();
-		List<Convidado> convidados = null;
+		List<Convidado> convidados = new ArrayList<Convidado>();
 
 		try {
 
 			session.beginTransaction();
-			Query query = session.createQuery("from convidado c where c.nome_convidado like :nome");
+
+			Query query = session.createQuery("from Convidado as c where c.nome like :nome");
 			query.setParameter("nome", "%" + nome + "%");
 
 			convidados = query.list();
@@ -76,7 +78,7 @@ public class ConvidadoDAO extends GenericDao<Integer, Convidado> {
 		try {
 
 			session.beginTransaction();
-			Query query = session.createQuery("from Convidado c where c.code_convidado like :code");
+			Query query = session.createQuery("from Convidado as c where c.qrcode like :code");
 			query.setParameter("code", "%" + code + "%");
 
 			convidados = query.list();
