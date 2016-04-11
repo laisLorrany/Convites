@@ -41,35 +41,6 @@ public class ConvidadoDAO extends GenericDao<Integer, Convidado> {
 		return null;
 	}
 
-	public Convidado getByKeyAuth(String keyAuth) throws HibernateException {
-
-		Session session = HibernateUtil.getSessionFactory().openSession();
-
-		Convidado monitor = null;
-
-		try {
-
-			String hql = "from Monitor as m" + " where m.keyAuth = :keyAuth";
-
-			Query query = session.createQuery(hql);
-			query.setParameter("keyAuth", keyAuth);
-
-			monitor = (Convidado) query.uniqueResult();
-
-		} catch (HibernateException hibernateException) {
-
-			session.getTransaction().rollback();
-
-			throw new HibernateException(hibernateException);
-
-		} finally {
-
-			session.close();
-		}
-
-		return monitor;
-	}
-
 	public List<Convidado> getByName(String nome) {
 
 		Session session = HibernateUtil.getSessionFactory().openSession();
@@ -78,7 +49,7 @@ public class ConvidadoDAO extends GenericDao<Integer, Convidado> {
 		try {
 
 			session.beginTransaction();
-			Query query = session.createQuery("from Convidado c where c.nome_convidado like :nome");
+			Query query = session.createQuery("from convidado c where c.nome_convidado like :nome");
 			query.setParameter("nome", "%" + nome + "%");
 
 			convidados = query.list();

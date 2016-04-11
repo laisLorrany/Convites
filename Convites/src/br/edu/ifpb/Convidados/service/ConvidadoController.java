@@ -6,6 +6,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import org.apache.logging.log4j.LogManager;
@@ -20,12 +21,10 @@ public class ConvidadoController {
 	private static Logger logger = LogManager.getLogger(ConvidadoController.class);
 
 	@GET
-	@Path("/pesquisar/nome")
+	@Path("/pesquisar/nome/{nome}")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public List<Convidado> pesquisarConvidadoNome(Convidado convidado) {
-
-		String nome = convidado.getNome();
+	public List<Convidado> pesquisarConvidadoNome(@PathParam("nome") String nome) {
 		
 		logger.info("Listar Recurso: " + nome);		
 
@@ -40,7 +39,9 @@ public class ConvidadoController {
 	@Path("/pesquisar/qrcode")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public List<Convidado> pesquisarConvidadoQrcode(String code_convidado) {
+	public List<Convidado> pesquisarConvidadoQrcode(Convidado convidado) {
+		
+		String code_convidado = convidado.getQrcode();
 		
 		logger.info("Listar Recurso: " + code_convidado);		
 
